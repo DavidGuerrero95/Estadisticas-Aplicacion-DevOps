@@ -286,7 +286,8 @@ public class ResultadosServices implements IResultadosServices {
 		case 6: // KANO
 			List<Double> resultadoPersonas = tipoSeisPrimero(respuestas);
 			resultado.setPromedioPonderado(resultadoPersonas);
-			resultado.setMayorEscogida(tipoSeisSegundo(resultadoPersonas, resultado));
+
+			resultado.setMayorEscogida(tipoSeisSegundo(resultadoPersonas));
 			break;
 		case 7: // LIKERT
 			respuestas.forEach(r -> {
@@ -313,58 +314,55 @@ public class ResultadosServices implements IResultadosServices {
 		rRepository.save(resultado);
 	}
 
+	// Kano first (A,M,O,R,Q,I)
 	private List<Double> tipoSeisPrimero(List<Respuestas> r) {
 		List<Double> respuesta = Arrays.asList(0.0, 0.0, 0.0, 0.0, 0.0, 0.0);
-		for (int a = 0; a < r.size(); a++) {
-			List<String> list = r.get(a).getRespuestas();
-			for (int i = 0; i < list.size(); i++) {
-				switch (list.get(0)) {
-				case "1.0":
-					switch (list.get(1)) {
-					case "1.0":
-						respuesta.set(5, respuesta.get(5) + 1);
-						break;
-					default:
-						respuesta.set(4, respuesta.get(4) + 1);
-						break;
+		r.forEach(x -> {
+			String pos1 = x.getRespuestas().get(0);
+			String pos2 = x.getRespuestas().get(1);
+			switch (pos1){
+				case "1":
+					switch (pos2){
+						case "1":
+							respuesta.set(3, respuesta.get(3) + 1);
+							break;
+						case "5":
+							respuesta.set(2, respuesta.get(2) + 1);
+							break;
+							default:
+								respuesta.set(0, respuesta.get(0) + 1);
+								break;
 					}
 					break;
-				case "5.0":
-					switch (list.get(1)) {
-					case "1.0":
-						respuesta.set(1, respuesta.get(1) + 1);
-						break;
-					case "5.0":
-						respuesta.set(5, respuesta.get(5) + 1);
-						break;
-					default:
-						respuesta.set(0, respuesta.get(0) + 1);
-						break;
-					}
+				case "5":
+					respuesta.set(3, respuesta.get(3) + 1);
 					break;
 				default:
-					switch (list.get(1)) {
-					case "1.0":
-						respuesta.set(2, respuesta.get(2) + 1);
-						break;
-					case "5.0":
-						respuesta.set(4, respuesta.get(4) + 1);
-						break;
-					default:
-						respuesta.set(3, respuesta.get(3) + 1);
-						break;
+					switch (pos2){
+						case "5":
+							respuesta.set(1, respuesta.get(1) + 1);
+							break;
+						default:
+							respuesta.set(5, respuesta.get(5) + 1);
+							break;
 					}
 					break;
-				}
 			}
-		}
+		});
 		return respuesta;
 	}
 
-	private String tipoSeisSegundo(List<Double> list, Resultados r) {
+	private String tipoSeisSegundo(List<Double> list) {
+		String A = "Atractivo";
+		String M = "Calidad Requerida";
+		String O = "Unidimensional";
+		String R = "Opuesto";
+		String Q = "Cuestionanble";
+		String I = "Indiferente";
 		Double valor = Collections.max(list);
 		if (valor == 0.0)
-			return "Cuestionable";
+			return Q;
+
 		int pos = list.indexOf(valor);
 		for (int i = (pos + 1); i < list.size(); i++) {
 			if (valor == list.get(i)) {
@@ -374,17 +372,17 @@ public class ResultadosServices implements IResultadosServices {
 		}
 		switch (pos) {
 		case 0:
-			return r.getMensajeImpacto().get(0);
+			return A;
 		case 1:
-			return r.getMensajeImpacto().get(1);
+			return M;
 		case 2:
-			return r.getMensajeImpacto().get(2);
+			return O;
 		case 3:
-			return r.getMensajeImpacto().get(3);
+			return R;
 		case 4:
-			return r.getMensajeImpacto().get(4);
+			return Q;
 		default:
-			return r.getMensajeImpacto().get(5);
+			return I;
 		}
 	}
 
