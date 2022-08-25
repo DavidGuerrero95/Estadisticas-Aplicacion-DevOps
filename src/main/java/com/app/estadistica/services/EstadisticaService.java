@@ -103,7 +103,7 @@ public class EstadisticaService implements IEstadisticaService {
 		log.info(e.getMessage());
 		throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Servicio Suscripciones no esta disponible");
 	}
-
+// Error
 	private Integer obtenerComentarios(Integer idProyecto, Throwable e) {
 		log.info(e.getMessage());
 		throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Servicio Suscripciones no esta disponible");
