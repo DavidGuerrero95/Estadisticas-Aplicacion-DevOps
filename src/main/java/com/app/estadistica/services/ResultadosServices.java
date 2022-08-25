@@ -286,7 +286,6 @@ public class ResultadosServices implements IResultadosServices {
 		case 6: // KANO
 			List<Double> resultadoPersonas = tipoSeisPrimero(respuestas);
 			resultado.setPromedioPonderado(resultadoPersonas);
-
 			resultado.setMayorEscogida(tipoSeisSegundo(resultadoPersonas));
 			break;
 		case 7: // LIKERT
