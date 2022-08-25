@@ -317,8 +317,8 @@ public class ResultadosServices implements IResultadosServices {
 	private List<Double> tipoSeisPrimero(List<Respuestas> r) {
 		List<Double> respuesta = Arrays.asList(0.0, 0.0, 0.0, 0.0, 0.0, 0.0);
 		r.forEach(x -> {
-			String pos1 = x.getRespuestas().get(1);
-			String pos2 = x.getRespuestas().get(0);
+			String pos1 = x.getRespuestas().get(0);
+			String pos2 = x.getRespuestas().get(1);
 			switch (pos1){
 				case "1":
 					switch (pos2){
