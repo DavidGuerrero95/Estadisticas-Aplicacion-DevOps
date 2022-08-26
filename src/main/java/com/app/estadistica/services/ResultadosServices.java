@@ -1,5 +1,7 @@
 package com.app.estadistica.services;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -328,9 +330,9 @@ public class ResultadosServices implements IResultadosServices {
 						case "5":
 							respuesta.set(2, respuesta.get(2) + 1);
 							break;
-							default:
-								respuesta.set(0, respuesta.get(0) + 1);
-								break;
+						default:
+							respuesta.set(0, respuesta.get(0) + 1);
+							break;
 					}
 					break;
 				case "5":
@@ -369,6 +371,9 @@ public class ResultadosServices implements IResultadosServices {
 			sI = 0.0;
 		}
 		sI *= 100;
+		BigDecimal bd = new BigDecimal(sI);
+		bd = bd.setScale(2, RoundingMode.HALF_UP);
+		sI = bd.doubleValue();
 		if(sI >= 75.0)
 			return "Alta satisfacción: " + sI;
 		else if(sI >= 50.0)
