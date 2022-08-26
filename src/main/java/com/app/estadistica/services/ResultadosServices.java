@@ -322,29 +322,29 @@ public class ResultadosServices implements IResultadosServices {
 			String pos1 = x.getRespuestas().get(0);
 			String pos2 = x.getRespuestas().get(1);
 			switch (pos1){
-				case "1":
+				case "5":
 					switch (pos2){
 						case "1":
-							respuesta.set(4, respuesta.get(4) + 1);
+							respuesta.set(2, respuesta.get(2) + 1);
 							break;
 						case "5":
-							respuesta.set(2, respuesta.get(2) + 1);
+							respuesta.set(4, respuesta.get(4) + 1);
 							break;
 						default:
 							respuesta.set(0, respuesta.get(0) + 1);
 							break;
 					}
 					break;
-				case "5":
+				case "1":
 					respuesta.set(3, respuesta.get(3) + 1);
 					break;
 				default:
 					switch (pos2){
 						case "1":
-							respuesta.set(3, respuesta.get(3)+1);
+							respuesta.set(1, respuesta.get(1)+1);
 							break;
 						case "5":
-							respuesta.set(1, respuesta.get(1) + 1);
+							respuesta.set(3, respuesta.get(3) + 1);
 							break;
 						default:
 							respuesta.set(5, respuesta.get(5) + 1);
@@ -375,12 +375,12 @@ public class ResultadosServices implements IResultadosServices {
 		bd = bd.setScale(2, RoundingMode.HALF_UP);
 		sI = bd.doubleValue();
 		if(sI >= 75.0)
-			return "Alta satisfacción: " + sI;
+			return "Alta satisfacción: " + sI+"%";
 		else if(sI >= 50.0)
-			return "Media satisfacción: " + sI;
+			return "Media satisfacción: " + sI+"%";
 		else if(sI >= 25)
-			return "Baja satisfacción: " + sI;
-		else return "Poca satisfacción: " + sI;
+			return "Baja satisfacción: " + sI+"%";
+		else return "Poca satisfacción: " + sI+"%";
 	}
 
 //  ****************************	FUNCIONES TOLERANCIA A FALLOS	***********************************  //
