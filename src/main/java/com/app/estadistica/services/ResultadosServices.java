@@ -315,7 +315,7 @@ public class ResultadosServices implements IResultadosServices {
 
 	// Kano first (A,M,O,R,Q,I)
 	private List<Double> tipoSeisPrimero(List<Respuestas> r) {
-		List<Double> respuesta = Arrays.asList(0.0, 0.0, 0.0, 0.0, 0.0, 0.0);
+		List<Double> respuesta = Arrays.asList(0.0, 0.0, 0.0, 0.0, 0.0, 0.0); // A,M,O,R,Q,I
 		r.forEach(x -> {
 			String pos1 = x.getRespuestas().get(0);
 			String pos2 = x.getRespuestas().get(1);
@@ -323,7 +323,7 @@ public class ResultadosServices implements IResultadosServices {
 				case "1":
 					switch (pos2){
 						case "1":
-							respuesta.set(3, respuesta.get(3) + 1);
+							respuesta.set(4, respuesta.get(4) + 1);
 							break;
 						case "5":
 							respuesta.set(2, respuesta.get(2) + 1);
@@ -338,6 +338,9 @@ public class ResultadosServices implements IResultadosServices {
 					break;
 				default:
 					switch (pos2){
+						case "1":
+							respuesta.set(3, respuesta.get(3)+1);
+							break;
 						case "5":
 							respuesta.set(1, respuesta.get(1) + 1);
 							break;
@@ -351,38 +354,28 @@ public class ResultadosServices implements IResultadosServices {
 		return respuesta;
 	}
 
-	private String tipoSeisSegundo(List<Double> list) {
-		String A = "Atractivo";
-		String M = "Calidad Requerida";
-		String O = "Unidimensional";
-		String R = "Opuesto";
-		String Q = "Cuestionanble";
-		String I = "Indiferente";
-		Double valor = Collections.max(list);
-		if (valor == 0.0)
-			return Q;
-
-		int pos = list.indexOf(valor);
-		for (int i = (pos + 1); i < list.size(); i++) {
-			if (valor == list.get(i)) {
-				pos = list.indexOf(list.get(i));
-				i = pos;
-			}
+	private String tipoSeisSegundo(List<Double> res) {
+		Double valorA = res.get(0);
+		Double valorM = res.get(1);
+		Double valorO = res.get(2);
+		Double valorR = res.get(3);
+		Double valorQ = res.get(4);
+		Double valorI = res.get(5);
+		Double sI = valorA+valorO;
+		Double den = valorA+valorO+valorM+valorI;
+		if (den != 0) {
+			sI /= den;
+		} else {
+			sI = 0.0;
 		}
-		switch (pos) {
-		case 0:
-			return A;
-		case 1:
-			return M;
-		case 2:
-			return O;
-		case 3:
-			return R;
-		case 4:
-			return Q;
-		default:
-			return I;
-		}
+		sI *= 100;
+		if(sI >= 75.0)
+			return "Alta satisfacción: " + sI;
+		else if(sI >= 50.0)
+			return "Media satisfacción: " + sI;
+		else if(sI >= 25)
+			return "Baja satisfacción: " + sI;
+		else return "Poca satisfacción: " + sI;
 	}
 
 //  ****************************	FUNCIONES TOLERANCIA A FALLOS	***********************************  //
